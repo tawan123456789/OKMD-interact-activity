@@ -8,7 +8,7 @@ import type {
 } from "./types.js";
 
 export const DEFAULT_CONFIGS = {
-  "random-number": { min: 1, max: 100 } satisfies RandomNumberConfig,
+  "random-number": { min: 1, max: 100, shuffleSeconds: 0.8 } satisfies RandomNumberConfig,
   "guess-word": {
     words: ["KNOWLEDGE", "CREATIVITY", "OPPORTUNITY"],
   } satisfies GuessWordConfig,

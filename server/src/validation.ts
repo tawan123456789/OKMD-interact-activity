@@ -8,6 +8,10 @@ import type {
 export const GRID_MIN = 2;
 export const GRID_MAX = 8;
 
+export const SHUFFLE_MIN = 0.2;
+export const SHUFFLE_MAX = 10;
+export const SHUFFLE_DEFAULT = 0.8;
+
 export interface ValidationResult<T> {
   valid: boolean;
   error?: string;
@@ -22,7 +26,7 @@ export function validateRandomNumber(input: unknown): ValidationResult<RandomNum
   if (typeof input !== "object" || input === null) {
     return { valid: false, error: "Config must be an object" };
   }
-  const { min, max } = input as Record<string, unknown>;
+  const { min, max, shuffleSeconds } = input as Record<string, unknown>;
   if (!isInteger(min)) {
     return { valid: false, error: "min must be an integer" };
   }
@@ -32,7 +36,20 @@ export function validateRandomNumber(input: unknown): ValidationResult<RandomNum
   if (min > max) {
     return { valid: false, error: "min must be less than or equal to max" };
   }
-  return { valid: true, value: { min, max } };
+
+  // Backward compatibility: older configs have no shuffleSeconds.
+  const seconds = shuffleSeconds === undefined ? SHUFFLE_DEFAULT : shuffleSeconds;
+  if (typeof seconds !== "number" || !Number.isFinite(seconds)) {
+    return { valid: false, error: "shuffleSeconds must be a number" };
+  }
+  if (seconds < SHUFFLE_MIN || seconds > SHUFFLE_MAX) {
+    return {
+      valid: false,
+      error: `Shuffle duration must be between ${SHUFFLE_MIN} and ${SHUFFLE_MAX} seconds.`,
+    };
+  }
+
+  return { valid: true, value: { min, max, shuffleSeconds: seconds } };
 }
 
 export function validateGuessWord(input: unknown): ValidationResult<GuessWordConfig> {

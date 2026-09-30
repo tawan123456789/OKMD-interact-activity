@@ -6,6 +6,7 @@ import { StateScreen } from "../../components/StateScreen";
 import { useConfig } from "../../hooks/useConfig";
 import { api } from "../../services/api";
 import { randomInt } from "../../utils/random";
+import { SHUFFLE_DEFAULT } from "../../types";
 import { Link } from "react-router-dom";
 import styles from "./RandomNumberGame.module.css";
 
@@ -32,7 +33,8 @@ export function RandomNumberGame() {
     setRolling(true);
     setHasResult(false);
 
-    // Shuffle animation ~800ms.
+    // Shuffle animation for the configured duration (backward-compat default).
+    const durationMs = (data.shuffleSeconds ?? SHUFFLE_DEFAULT) * 1000;
     intervalRef.current = window.setInterval(() => {
       setDisplay(String(randomInt(data.min, data.max)));
     }, 60);
@@ -43,7 +45,7 @@ export function RandomNumberGame() {
       setDisplay(String(result));
       setRolling(false);
       setHasResult(true);
-    }, 800);
+    }, durationMs);
   }, [data, rolling, clearTimers]);
 
   const reset = useCallback(() => {

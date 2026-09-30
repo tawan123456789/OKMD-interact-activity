@@ -3,6 +3,8 @@
 export interface RandomNumberConfig {
   min: number;
   max: number;
+  /** How long the shuffle animation runs before showing the result, in seconds. */
+  shuffleSeconds: number;
 }
 
 export interface GuessWordConfig {

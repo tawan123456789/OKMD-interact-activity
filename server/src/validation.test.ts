@@ -7,8 +7,8 @@ import {
 
 describe("validateRandomNumber", () => {
   it("accepts a valid range", () => {
-    expect(validateRandomNumber({ min: 1, max: 100 }).valid).toBe(true);
-    expect(validateRandomNumber({ min: 50, max: 50 }).valid).toBe(true);
+    expect(validateRandomNumber({ min: 1, max: 100, shuffleSeconds: 0.8 }).valid).toBe(true);
+    expect(validateRandomNumber({ min: 50, max: 50, shuffleSeconds: 3 }).valid).toBe(true);
   });
 
   it("rejects invalid ranges", () => {
@@ -17,6 +17,24 @@ describe("validateRandomNumber", () => {
     expect(validateRandomNumber({ min: "1", max: 10 }).valid).toBe(false);
     expect(validateRandomNumber({ min: 1 }).valid).toBe(false);
     expect(validateRandomNumber(null).valid).toBe(false);
+  });
+
+  it("defaults missing shuffleSeconds to 0.8 (backward compat)", () => {
+    const r = validateRandomNumber({ min: 1, max: 10 });
+    expect(r.valid).toBe(true);
+    expect(r.value?.shuffleSeconds).toBe(0.8);
+  });
+
+  it("rejects out-of-range shuffle durations", () => {
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: 0 }).valid).toBe(false);
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: 20 }).valid).toBe(false);
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: "1" }).valid).toBe(false);
+  });
+
+  it("accepts fractional shuffle durations within range", () => {
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: 0.2 }).valid).toBe(true);
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: 10 }).valid).toBe(true);
+    expect(validateRandomNumber({ min: 1, max: 10, shuffleSeconds: 1.5 }).valid).toBe(true);
   });
 });
 

@@ -5,6 +5,12 @@ import { StateScreen } from "../../components/StateScreen";
 import { useConfig } from "../../hooks/useConfig";
 import { useToast } from "../../components/Toast";
 import { api } from "../../services/api";
+import {
+  SHUFFLE_MIN,
+  SHUFFLE_MAX,
+  SHUFFLE_DEFAULT,
+  type RandomNumberConfig,
+} from "../../types";
 import form from "../../styles/form.module.css";
 
 export function RandomNumberEdit() {
@@ -13,6 +19,7 @@ export function RandomNumberEdit() {
 
   const [min, setMin] = useState("1");
   const [max, setMax] = useState("100");
+  const [shuffle, setShuffle] = useState(String(SHUFFLE_DEFAULT));
   const [saving, setSaving] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -20,15 +27,21 @@ export function RandomNumberEdit() {
     if (data) {
       setMin(String(data.min));
       setMax(String(data.max));
+      // Backward compat: old configs may not have shuffleSeconds.
+      setShuffle(String(data.shuffleSeconds ?? SHUFFLE_DEFAULT));
     }
   }, [data]);
 
   const dirty =
-    !!data && (String(data.min) !== min || String(data.max) !== max);
+    !!data &&
+    (String(data.min) !== min ||
+      String(data.max) !== max ||
+      String(data.shuffleSeconds ?? SHUFFLE_DEFAULT) !== shuffle);
 
-  function validate(): { min: number; max: number } | null {
+  function validate(): RandomNumberConfig | null {
     const minN = Number(min);
     const maxN = Number(max);
+    const shuffleN = Number(shuffle);
     if (!Number.isInteger(minN)) {
       setValidationError("Minimum must be an integer");
       return null;
@@ -41,14 +54,20 @@ export function RandomNumberEdit() {
       setValidationError("Minimum must be less than or equal to Maximum");
       return null;
     }
+    if (!Number.isFinite(shuffleN) || shuffleN < SHUFFLE_MIN || shuffleN > SHUFFLE_MAX) {
+      setValidationError(
+        `Shuffle duration must be between ${SHUFFLE_MIN} and ${SHUFFLE_MAX} seconds.`
+      );
+      return null;
+    }
     setValidationError(null);
-    return { min: minN, max: maxN };
+    return { min: minN, max: maxN, shuffleSeconds: shuffleN };
   }
 
   async function onSave() {
     const valid = validate();
     if (!valid) {
-      toast.error(validationError ?? "Invalid range");
+      toast.error(validationError ?? "Invalid config");
       return;
     }
     setSaving(true);
@@ -77,7 +96,7 @@ export function RandomNumberEdit() {
   return (
     <EditLayout
       title="Random Number Config"
-      subtitle="กำหนดช่วงตัวเลขที่ใช้สุ่ม"
+      subtitle="กำหนดช่วงตัวเลขและระยะเวลาการสุ่ม"
       dirty={dirty}
       saving={saving}
       onSave={onSave}
@@ -107,6 +126,24 @@ export function RandomNumberEdit() {
             value={max}
             onChange={(e) => setMax(e.target.value)}
           />
+        </div>
+        <div className={form.field}>
+          <label className={form.label} htmlFor="shuffle">
+            ระยะเวลาการสุ่ม (วินาที)
+          </label>
+          <input
+            id="shuffle"
+            className={form.input}
+            type="number"
+            step="0.1"
+            min={SHUFFLE_MIN}
+            max={SHUFFLE_MAX}
+            value={shuffle}
+            onChange={(e) => setShuffle(e.target.value)}
+          />
+          <span className={form.hint}>
+            ระยะเวลาที่ตัวเลขจะหมุนก่อนหยุดที่ผลลัพธ์ ({SHUFFLE_MIN}–{SHUFFLE_MAX} วินาที)
+          </span>
         </div>
         {validationError && <p className={form.error}>{validationError}</p>}
       </div>
