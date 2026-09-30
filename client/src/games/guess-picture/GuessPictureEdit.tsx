@@ -10,6 +10,7 @@ import { useToast } from "../../components/Toast";
 import { api } from "../../services/api";
 import { GRID_MIN, GRID_MAX, DEFAULT_GRID, type PictureQuestion } from "../../types";
 import { totalTiles } from "../../utils/pictureGrid";
+import { generateId } from "../../utils/id";
 import form from "../../styles/form.module.css";
 import styles from "./GuessPictureEdit.module.css";
 
@@ -29,7 +30,7 @@ const GRID_OPTIONS = Array.from(
 
 function newPicture(): PictureQuestion {
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     image: "",
     answer: "",
     gridRows: DEFAULT_GRID,
