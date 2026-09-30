@@ -64,6 +64,67 @@ npm start
 
 ---
 
+## Docker
+
+รันทั้งแอปเป็น container เดียว (Express serve ทั้ง API และ React build)
+
+```bash
+docker compose up -d --build
+```
+
+- แอปจะเปิดที่ **http://localhost** (compose map host port `80` → container `3000`)
+- `config/` และ `storage/` ถูก bind-mount จาก host จึง **persist** หลัง restart / rebuild
+- ดู log: `docker compose logs -f`
+- หยุด: `docker compose down` (ข้อมูลใน `config/` และ `storage/` ยังอยู่)
+
+เปลี่ยนพอร์ต host ได้ที่ `docker-compose.yml` เช่น `"8080:3000"`
+
+---
+
+## Deploy บน Google Cloud VM
+
+ขั้นตอนสำหรับ Compute Engine VM (Debian/Ubuntu):
+
+1. **สร้าง VM** – เลือก e2-small ขึ้นไป, ติ๊ก "Allow HTTP traffic" (เปิด firewall port 80)
+   หากไม่ได้ติ๊กตอนสร้าง ให้เพิ่ม firewall rule เปิด TCP `80` สำหรับ tag ของ VM
+
+2. **ติดตั้ง Docker บน VM**
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y docker.io docker-compose-plugin git
+   sudo systemctl enable --now docker
+   sudo usermod -aG docker $USER   # แล้ว logout/login ใหม่หนึ่งครั้ง
+   ```
+
+3. **ดึงโค้ดและรัน**
+
+   ```bash
+   git clone https://github.com/tawan123456789/OKMD-interact-activity.git
+   cd OKMD-interact-activity
+   docker compose up -d --build
+   ```
+
+4. **เข้าใช้งาน** – เปิด `http://<VM_EXTERNAL_IP>` ในเบราว์เซอร์
+
+**อัปเดตเวอร์ชันใหม่**
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+**Backup ข้อมูล** – สำรองเฉพาะสองโฟลเดอร์นี้ก็พอ:
+
+```bash
+tar czf okmd-backup.tar.gz config storage
+```
+
+> หมายเหตุ: ถ้าต้องการ HTTPS แนะนำวาง reverse proxy (Nginx/Caddy) หรือใช้
+> Google Cloud Load Balancer หน้า container นี้ ตัวแอปเองให้บริการผ่าน HTTP ที่พอร์ต 3000
+
+---
+
 ## Project structure
 
 ```text

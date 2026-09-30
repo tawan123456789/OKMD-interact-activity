@@ -1,0 +1,18 @@
+node_modules
+**/node_modules
+server/dist
+client/dist
+.git
+.gitignore
+*.log
+npm-debug.log*
+
+# Local runtime data - never bake into the image; use volumes instead.
+storage/images/*
+!storage/images/.gitkeep
+
+# Editor / OS noise
+.vscode
+.idea
+.DS_Store
+Thumbs.db

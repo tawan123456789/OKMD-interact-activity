@@ -1,0 +1,30 @@
+services:
+  okmd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: okmd-interactive-activities:latest
+    container_name: okmd-activities
+    restart: unless-stopped
+    # Map host port 80 -> container 3000 so the app is reachable on the VM's
+    # public IP over plain HTTP. Change "80" to another port if 80 is in use.
+    ports:
+      - "80:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    # Persist game config and uploaded images on the host so data survives
+    # container restarts, recreation, and image rebuilds.
+    volumes:
+      - ./config:/app/config
+      - ./storage:/app/storage
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
