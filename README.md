@@ -123,6 +123,30 @@ tar czf okmd-backup.tar.gz config storage
 > หมายเหตุ: ถ้าต้องการ HTTPS แนะนำวาง reverse proxy (Nginx/Caddy) หรือใช้
 > Google Cloud Load Balancer หน้า container นี้ ตัวแอปเองให้บริการผ่าน HTTP ที่พอร์ต 3000
 
+### Troubleshooting: permission / เขียนไฟล์ config หรืออัปโหลดรูปไม่ได้
+
+Container รันด้วย user `node` (ไม่ใช่ root) แต่โฟลเดอร์ `config/` และ `storage/`
+ที่ bind-mount จาก host มักเป็นเจ้าของ `root` ทำให้เขียนไม่ได้ (EACCES)
+
+โปรเจกต์นี้จัดการให้อัตโนมัติแล้วผ่าน `docker-entrypoint.sh` ซึ่งจะ `chown`
+โฟลเดอร์ที่ mount ตอนเริ่ม container ก่อนจะลด privilege ลงเป็น `node`
+
+ถ้ายังเจอปัญหา (เช่นจาก image เวอร์ชันเก่า) ให้ rebuild ใหม่:
+
+```bash
+docker compose down
+docker compose up -d --build
+```
+
+หรือแก้ ownership บน host เองครั้งเดียว (UID ของ node คือ 1000):
+
+```bash
+sudo chown -R 1000:1000 config storage
+```
+
+> อย่ารันด้วย `sudo docker ...` แล้วแก้ไฟล์ด้วย user ปกติสลับกันไปมา เพราะจะทำให้
+> ownership ปนกัน หากไฟล์ที่ commit มากับ repo เป็นของ root ก็ใช้คำสั่ง `chown` ด้านบนได้
+
 ---
 
 ## Project structure

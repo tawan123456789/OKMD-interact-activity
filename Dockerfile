@@ -28,6 +28,10 @@ ENV NODE_ENV=production
 ENV PORT=3000
 WORKDIR /app
 
+# su-exec lets the entrypoint drop from root to the node user after fixing
+# ownership of bind-mounted volumes.
+RUN apk add --no-cache su-exec
+
 # Production dependencies (hoisted at the root by npm workspaces).
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
@@ -41,11 +45,12 @@ COPY --from=builder /app/client/dist ./client/dist
 # volume is empty. The server also self-heals missing files at startup.
 COPY --from=builder /app/config ./config
 
-# Runtime data directories (overridden by volumes in docker-compose).
-RUN mkdir -p /app/config /app/storage/images \
+# Runtime data directories + entrypoint. Ownership of bind-mounted volumes is
+# fixed at startup by the entrypoint (see docker-entrypoint.sh).
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+  && mkdir -p /app/config /app/storage/images \
   && chown -R node:node /app
-
-USER node
 
 EXPOSE 3000
 
@@ -53,4 +58,7 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:'+ (process.env.PORT||3000) +'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
+# Starts as root so the entrypoint can chown the mounted volumes, then drops
+# to the unprivileged "node" user before running the server.
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["node", "server/dist/index.js"]
