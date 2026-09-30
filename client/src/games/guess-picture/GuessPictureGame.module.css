@@ -43,17 +43,24 @@
   position: absolute;
   inset: 0;
   display: grid;
-  gap: 2px;
+  /* No gap: tiles sit flush against each other with no holes. */
+  gap: 0;
 }
 
 .tile {
-  border: 2px solid var(--color-border);
+  /* Only draw right + bottom dividers so shared edges are a single crisp line
+     (no doubled borders, no gaps). The frame's outer border closes the
+     top and left edges of the whole grid. */
+  border: 0;
+  border-right: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
   background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 250ms ease, transform 250ms ease;
   padding: 0;
+  margin: 0;
 }
 
 .tile:hover:not(:disabled) {
@@ -72,6 +79,7 @@
   transform: scale(0.85);
   pointer-events: none;
   border-color: transparent;
+  background: transparent;
 }
 
 .controls {
