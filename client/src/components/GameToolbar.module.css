@@ -1,0 +1,29 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+  flex-wrap: wrap;
+}
+
+.left,
+.right,
+.center {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+}
+
+.center {
+  flex: 1;
+  justify-content: center;
+}

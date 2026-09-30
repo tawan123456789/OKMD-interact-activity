@@ -1,0 +1,71 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-hard);
+  transition: transform 150ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.icon {
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.icon :global(svg) {
+  width: 48px;
+  height: 48px;
+}
+
+.primary .icon {
+  background: var(--color-primary);
+}
+.secondary .icon {
+  background: var(--color-secondary);
+}
+.accent .icon {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.title {
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+}
+
+.description {
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: var(--color-muted);
+  flex: 1;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.actions > :global(.btn) {
+  flex: 1 1 120px;
+  /* Allow flex items to shrink below their content size so buttons never
+     overflow the card on narrow columns. */
+  min-width: 0;
+  /* Cap the button size inside cards so two buttons fit side by side and
+     wrap to their own rows only when the card is genuinely too narrow. */
+  font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+  padding: 0.6em 0.9em;
+  white-space: nowrap;
+}

@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.mark {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.dot {
+  width: clamp(20px, 3vw, 34px);
+  height: clamp(20px, 3vw, 34px);
+  border: 3px solid var(--color-border);
+}
+
+.dot:nth-child(1) {
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+.dot:nth-child(2) {
+  background: var(--color-secondary);
+}
+.dot:nth-child(3) {
+  background: var(--color-accent);
+  transform: rotate(45deg);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0.25rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  color: var(--color-muted);
+  font-weight: 500;
+}

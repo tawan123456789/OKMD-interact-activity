@@ -1,0 +1,135 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2vh, 1.5rem);
+  padding: clamp(0.75rem, 2vh, 1.5rem);
+  min-height: 0;
+}
+
+.frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: min(90vw, calc((100vh - 220px) * 1.7778));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d9d5c8;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.tile {
+  border: 2px solid var(--color-border);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 250ms ease, transform 250ms ease;
+  padding: 0;
+}
+
+.tile:hover:not(:disabled) {
+  background: var(--color-secondary);
+}
+
+.tileNum {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2vw, 1.8rem);
+  color: var(--color-text);
+}
+
+.tileOpen {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  border-color: transparent;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.progress {
+  font-weight: 700;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  padding: 0.3rem 0.7rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+}
+
+.answerPanel {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.9);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 1200;
+  animation: scaleFade 350ms ease;
+  padding: 2rem;
+  text-align: center;
+}
+
+.answerLabel {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  letter-spacing: 0.2em;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.answerText {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.answerActions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@keyframes scaleFade {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

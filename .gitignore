@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+
+# Keep config/ and storage/ directories but ignore uploaded content
+storage/images/*
+!storage/images/.gitkeep

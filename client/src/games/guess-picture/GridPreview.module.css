@@ -1,0 +1,25 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.grid {
+  display: grid;
+  gap: 3px;
+  width: 160px;
+  height: 120px;
+  border: 2px solid var(--color-border);
+  background: var(--color-border);
+}
+
+.cell {
+  background: var(--color-primary);
+}
+
+.count {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1rem;
+}

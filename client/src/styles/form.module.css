@@ -1,0 +1,47 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  font-family: var(--font-display);
+}
+
+.input,
+.select {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  padding: 0.7rem 1rem;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  max-width: 260px;
+}
+
+.inputWide {
+  max-width: 100%;
+}
+
+.error {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.hint {
+  color: var(--color-muted);
+  font-size: 1rem;
+}
+
+.section {
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  box-shadow: var(--shadow-hard);
+}
