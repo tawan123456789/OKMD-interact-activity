@@ -5,6 +5,7 @@ import type {
   RandomNumberConfig,
   GuessWordConfig,
   GuessPictureConfig,
+  NumberCutConfig,
 } from "./types.js";
 
 export const DEFAULT_CONFIGS = {
@@ -13,6 +14,7 @@ export const DEFAULT_CONFIGS = {
     words: ["KNOWLEDGE", "CREATIVITY", "OPPORTUNITY"],
   } satisfies GuessWordConfig,
   "guess-picture": { pictures: [] } satisfies GuessPictureConfig,
+  "number-cut": { min: 1, max: 100, rounds: 6 } satisfies NumberCutConfig,
 } as const;
 
 /** Ensure config/ and storage/images/ directories exist and seed default config files. */

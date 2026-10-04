@@ -4,6 +4,7 @@ import {
   validateRandomNumber,
   validateGuessWord,
   validateGuessPicture,
+  validateNumberCut,
 } from "../validation.js";
 import type { ConfigKey } from "../paths.js";
 
@@ -13,6 +14,7 @@ const validators = {
   "random-number": validateRandomNumber,
   "guess-word": validateGuessWord,
   "guess-picture": validateGuessPicture,
+  "number-cut": validateNumberCut,
 } as const;
 
 function makeRoutes(key: ConfigKey) {
@@ -47,6 +49,8 @@ function makeRoutes(key: ConfigKey) {
   });
 }
 
-(["random-number", "guess-word", "guess-picture"] as ConfigKey[]).forEach(makeRoutes);
+(["random-number", "guess-word", "guess-picture", "number-cut"] as ConfigKey[]).forEach(
+  makeRoutes
+);
 
 export default router;

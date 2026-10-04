@@ -3,6 +3,7 @@ import type {
   RandomNumberConfig,
   GuessWordConfig,
   GuessPictureConfig,
+  NumberCutConfig,
 } from "../types";
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
@@ -42,6 +43,13 @@ export const api = {
     request<GuessPictureConfig>("/api/config/guess-picture"),
   saveGuessPicture: (config: GuessPictureConfig) =>
     request<GuessPictureConfig>("/api/config/guess-picture", {
+      method: "PUT",
+      body: JSON.stringify(config),
+    }),
+
+  getNumberCut: () => request<NumberCutConfig>("/api/config/number-cut"),
+  saveNumberCut: (config: NumberCutConfig) =>
+    request<NumberCutConfig>("/api/config/number-cut", {
       method: "PUT",
       body: JSON.stringify(config),
     }),

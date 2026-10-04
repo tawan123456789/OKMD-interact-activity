@@ -1,4 +1,4 @@
-import { Dices, Type, Image } from "lucide-react";
+import { Dices, Type, Image, Scissors } from "lucide-react";
 import { AppHeader } from "../components/AppHeader";
 import { AdminGameCard } from "../components/AdminGameCard";
 import styles from "./AdminConsole.module.css";
@@ -31,6 +31,14 @@ export function AdminConsole() {
           editTo="/guess-picture/edit"
           accent="accent"
           icon={<Image />}
+        />
+        <AdminGameCard
+          title="Number Cut"
+          description="ตัดช่วงตัวเลขจากหัวและท้ายจนได้เลขสุดท้าย"
+          playTo="/number-cut"
+          editTo="/number-cut/edit"
+          accent="primary"
+          icon={<Scissors />}
         />
       </main>
     </div>

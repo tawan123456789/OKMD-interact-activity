@@ -1,0 +1,124 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vh, 1.75rem);
+  padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 5vw, 4rem);
+  min-height: 0;
+}
+
+.roundInfo {
+  font-weight: 700;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  padding: 0.3rem 0.7rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+}
+
+.dots {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: clamp(14px, 1.6vw, 22px);
+  height: clamp(14px, 1.6vw, 22px);
+  border-radius: 50%;
+  border: 3px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.dotDone {
+  background: var(--color-secondary);
+}
+
+.dotActive {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(230, 0, 35, 0.2);
+}
+
+.direction {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin: 0;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.finalDirection {
+  color: var(--color-accent);
+  animation: pulse 900ms ease infinite alternate;
+}
+
+.directionSub {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  color: var(--color-muted);
+}
+
+.cutPoint {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.9;
+  margin: 0;
+  color: var(--color-accent);
+}
+
+.remaining {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.finalPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scaleFade 400ms ease;
+}
+
+.finalLabel {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  letter-spacing: 0.2em;
+  margin: 0;
+  color: var(--color-secondary);
+}
+
+.finalNumber {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(6rem, 22vw, 16rem);
+  line-height: 0.85;
+  margin: 0;
+  color: var(--color-accent);
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1.03); }
+}
+
+@keyframes scaleFade {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -3,6 +3,7 @@ import type {
   GuessWordConfig,
   GuessPictureConfig,
   PictureQuestion,
+  NumberCutConfig,
 } from "./types.js";
 
 export const GRID_MIN = 2;
@@ -11,6 +12,9 @@ export const GRID_MAX = 8;
 export const SHUFFLE_MIN = 0.2;
 export const SHUFFLE_MAX = 10;
 export const SHUFFLE_DEFAULT = 0.8;
+
+export const ROUNDS_MIN = 2;
+export const ROUNDS_MAX = 20;
 
 export interface ValidationResult<T> {
   valid: boolean;
@@ -147,4 +151,33 @@ export function validateGuessPicture(input: unknown): ValidationResult<GuessPict
     result.push(v.value);
   }
   return { valid: true, value: { pictures: result } };
+}
+
+export function validateNumberCut(input: unknown): ValidationResult<NumberCutConfig> {
+  if (typeof input !== "object" || input === null) {
+    return { valid: false, error: "Config must be an object" };
+  }
+  const { min, max, rounds } = input as Record<string, unknown>;
+  if (!isInteger(min)) {
+    return { valid: false, error: "min must be an integer" };
+  }
+  if (!isInteger(max)) {
+    return { valid: false, error: "max must be an integer" };
+  }
+  if (min >= max) {
+    return { valid: false, error: "min must be less than max" };
+  }
+  if (max - min < 2) {
+    return { valid: false, error: "Range (max - min) must be at least 2" };
+  }
+  if (!isInteger(rounds)) {
+    return { valid: false, error: "rounds must be an integer" };
+  }
+  if (rounds < ROUNDS_MIN || rounds > ROUNDS_MAX) {
+    return {
+      valid: false,
+      error: `Number of rounds must be between ${ROUNDS_MIN} and ${ROUNDS_MAX}.`,
+    };
+  }
+  return { valid: true, value: { min, max, rounds } };
 }

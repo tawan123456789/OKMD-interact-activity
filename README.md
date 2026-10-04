@@ -240,6 +240,8 @@ Default:
 | `/guess-word/edit`      | Guess the Word Config       |
 | `/guess-picture`        | Guess the Picture Game      |
 | `/guess-picture/edit`   | Guess the Picture Config    |
+| `/number-cut`           | Number Cut Game             |
+| `/number-cut/edit`      | Number Cut Config           |
 
 ---
 
@@ -254,6 +256,8 @@ Default:
 | PUT    | `/api/config/guess-word`          | บันทึก config Guess the Word   |
 | GET    | `/api/config/guess-picture`       | อ่าน config Guess the Picture  |
 | PUT    | `/api/config/guess-picture`       | บันทึก config Guess the Picture|
+| GET    | `/api/config/number-cut`          | อ่าน config Number Cut         |
+| PUT    | `/api/config/number-cut`          | บันทึก config Number Cut       |
 | POST   | `/api/images`                     | อัปโหลดรูป (field `image`)     |
 | DELETE | `/api/images/:filename`           | ลบรูป                          |
 

@@ -6,6 +6,8 @@ import { GuessWordGame } from "./games/guess-word/GuessWordGame";
 import { GuessWordEdit } from "./games/guess-word/GuessWordEdit";
 import { GuessPictureGame } from "./games/guess-picture/GuessPictureGame";
 import { GuessPictureEdit } from "./games/guess-picture/GuessPictureEdit";
+import { NumberCutGame } from "./games/number-cut/NumberCutGame";
+import { NumberCutEdit } from "./games/number-cut/NumberCutEdit";
 import { NotFound } from "./pages/NotFound";
 
 export default function App() {
@@ -21,6 +23,9 @@ export default function App() {
 
       <Route path="/guess-picture" element={<GuessPictureGame />} />
       <Route path="/guess-picture/edit" element={<GuessPictureEdit />} />
+
+      <Route path="/number-cut" element={<NumberCutGame />} />
+      <Route path="/number-cut/edit" element={<NumberCutEdit />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

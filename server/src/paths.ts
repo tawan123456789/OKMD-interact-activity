@@ -16,6 +16,7 @@ export const CONFIG_FILES = {
   "random-number": path.join(CONFIG_DIR, "random-number.json"),
   "guess-word": path.join(CONFIG_DIR, "guess-word.json"),
   "guess-picture": path.join(CONFIG_DIR, "guess-picture.json"),
+  "number-cut": path.join(CONFIG_DIR, "number-cut.json"),
 } as const;
 
 export type ConfigKey = keyof typeof CONFIG_FILES;

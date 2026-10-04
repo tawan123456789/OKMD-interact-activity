@@ -3,6 +3,7 @@ import {
   validateRandomNumber,
   validateGuessWord,
   validateGuessPicture,
+  validateNumberCut,
 } from "./validation.js";
 
 describe("validateRandomNumber", () => {
@@ -87,5 +88,32 @@ describe("validateGuessPicture", () => {
 
   it("accepts empty picture list", () => {
     expect(validateGuessPicture({ pictures: [] }).valid).toBe(true);
+  });
+});
+
+describe("validateNumberCut", () => {
+  it("accepts a valid config", () => {
+    expect(validateNumberCut({ min: 1, max: 100, rounds: 6 }).valid).toBe(true);
+    expect(validateNumberCut({ min: 0, max: 2, rounds: 2 }).valid).toBe(true);
+  });
+
+  it("rejects min >= max", () => {
+    expect(validateNumberCut({ min: 10, max: 10, rounds: 6 }).valid).toBe(false);
+    expect(validateNumberCut({ min: 20, max: 5, rounds: 6 }).valid).toBe(false);
+  });
+
+  it("rejects range smaller than 2", () => {
+    expect(validateNumberCut({ min: 1, max: 2, rounds: 6 }).valid).toBe(false);
+  });
+
+  it("rejects invalid rounds", () => {
+    expect(validateNumberCut({ min: 1, max: 100, rounds: 1 }).valid).toBe(false);
+    expect(validateNumberCut({ min: 1, max: 100, rounds: 21 }).valid).toBe(false);
+    expect(validateNumberCut({ min: 1, max: 100, rounds: 2.5 }).valid).toBe(false);
+  });
+
+  it("rejects non-integer bounds", () => {
+    expect(validateNumberCut({ min: 1.5, max: 100, rounds: 6 }).valid).toBe(false);
+    expect(validateNumberCut({ min: 1, max: "100", rounds: 6 }).valid).toBe(false);
   });
 });

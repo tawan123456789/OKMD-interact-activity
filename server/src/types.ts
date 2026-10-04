@@ -23,6 +23,13 @@ export interface GuessPictureConfig {
   pictures: PictureQuestion[];
 }
 
+export interface NumberCutConfig {
+  min: number;
+  max: number;
+  /** Total rounds, including the final nearest-number round. */
+  rounds: number;
+}
+
 export interface ApiSuccess<T> {
   success: true;
   data: T;
